@@ -1,6 +1,8 @@
 package com.example.coolweather.activity;
 
 import com.example.coolweather.R;
+import com.example.coolweather.receiver.AutoUpdateReceiver;
+import com.example.coolweather.service.AutoUpdateService;
 import com.example.coolweather.util.HttpCallbackListener;
 import com.example.coolweather.util.HttpUtil;
 import com.example.coolweather.util.Utility;
@@ -80,6 +82,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		refreshWeather = (Button) findViewById(R.id.refresh_weather);
 		switchCity.setOnClickListener(this);
 		refreshWeather.setOnClickListener(this);
+		
 
 	}
 
@@ -118,7 +121,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 					// 处理服务器返回的天气信息
 					Utility.handleWeatherResponse(WeatherActivity.this,
 							response);
-					System.out.println("-----------response" + response);
+					System.out.println("-----------responseweather" + response);
 					runOnUiThread(new Runnable() {
 						public void run() {
 							showWeather();
@@ -154,6 +157,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+
 	}
 
 	@Override
