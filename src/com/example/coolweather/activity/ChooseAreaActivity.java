@@ -3,6 +3,7 @@ package com.example.coolweather.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.youmi.android.AdManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -41,33 +42,33 @@ public class ChooseAreaActivity extends Activity {
 	private CoolWeatherDB coolWeatherDB;
 	private List<String> datalist = new ArrayList<String>();
 	/**
-	 * Ê¡ÁĞ±í
+	 * çœåˆ—è¡¨
 	 */
 	private List<Province> provinceList;
 	/**
-	 * ÊĞÁĞ±í
+	 * å¸‚åˆ—è¡¨
 	 */
 	private List<City> cityList;
 	/**
-	 * ÏØÁĞ±í
+	 * å¿åˆ—è¡¨
 	 */
 	private List<County> countyList;
 	/**
-	 * Ñ¡ÔñµÄÊ¡·İ
+	 * é€‰ä¸­çš„çœä»½
 	 */
 	private Province selectedProvince;
 
 	/**
-	 * Ñ¡ÖĞµÄ³ÇÊĞ
+	 * é€‰ä¸­çš„åŸå¸‚
 	 */
 	private City selectedCity;
 	/**
-	 * µ±Ç°Ñ¡ÖĞµÄ¼¶±ğ
+	 * å½“å‰é€‰ä¸­çš„çº§åˆ«
 	 */
 	private int currentLevel;
 	
 	/**
-	 * ÊÇ·ñ´ÓWeatherActivityÖĞÌø×ª¹ıÀ´
+	 * æ˜¯å¦ä»WeatherActivityä¸­è·³è½¬è¿‡æ¥
 	 */
 	
 	private boolean isFromWeatherActivity;
@@ -76,9 +77,10 @@ public class ChooseAreaActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AdManager.getInstance(this).init("666001ded17be9d8", "004404f537736761", false);
 		isFromWeatherActivity=getIntent().getBooleanExtra("from_weather_activity", false);
 		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
-		if(prefs.getBoolean("city_selected", false)&&  isFromWeatherActivity){
+		if(prefs.getBoolean("city_selected", false)&& !isFromWeatherActivity){
 			Intent intent=new Intent(ChooseAreaActivity.this,WeatherActivity.class);
 			startActivity(intent);
 			finish();
@@ -117,7 +119,7 @@ public class ChooseAreaActivity extends Activity {
 	}
 
 	/**
-	 * ²éÑ¯È«¹úËùÓĞµÄÊ¡£¬ÓÅÏÈ´ÓÊı¾İ¿â²éÑ¯£¬Èç¹ûÃ»ÓĞ²éÑ¯µ½ÔÙÈ¥·şÎñÆ÷²éÑ¯
+	 * æŸ¥è¯¢å…¨å›½æ‰€æœ‰çš„çœï¼Œä¼˜å…ˆä»æ•°æ®åº“æŸ¥è¯¢ï¼Œå¦‚æœæ²¡æœ‰æŸ¥è¯¢åˆ°å†å»æœåŠ¡å™¨ä¸ŠæŸ¥è¯¢
 	 * 
 	 */
 
@@ -130,7 +132,7 @@ public class ChooseAreaActivity extends Activity {
 			}
 			adapter.notifyDataSetChanged();
 			listView.setSelection(0);
-			titleText.setText("ÖĞ¹ú");
+			titleText.setText("ä¸­å›½");
 			currentLevel = LEVEL_PROVINCE;
 			
 		} else {
@@ -140,7 +142,7 @@ public class ChooseAreaActivity extends Activity {
 	}
 
 	/**
-	 * ²éÑ¯È«¹úÑ¡ÖĞÊ¡ÄÚËùÓĞµÄÊĞ£¬ÓÅÏÈ´ÓÊı¾İ¿â²éÑ¯£¬Èç¹ûÃ»ÓĞ²éÑ¯µ½ÔÙÈ¥·şÎñÆ÷²éÑ¯
+	 * æŸ¥è¯¢é€‰ä¸­çœå†…æ‰€æœ‰çš„å¸‚ï¼Œä¼˜å…ˆä»æ•°æ®åº“æŸ¥è¯¢ï¼Œå¦‚æœæ²¡æœ‰æŸ¥è¯¢åˆ°å†å»æœåŠ¡å™¨ä¸ŠæŸ¥è¯¢
 	 * 
 	 */
 	private void queryCities() {
@@ -161,8 +163,8 @@ public class ChooseAreaActivity extends Activity {
 	}
 
 	/**
-	 * ²éÑ¯Ñ¡ÖĞ³ÇÊĞÄÚËùÓĞµÄÏØ£¬ÓÅÏÈ´ÓÊı¾İ¿â²éÑ¯£¬Èç¹ûÃ»ÓĞ²éÑ¯µ½ÔÙÈ¥·şÎñÆ÷²éÑ¯
-	 * 
+	 * æŸ¥è¯¢é€‰ä¸­å¸‚å†…æ‰€æœ‰çš„å¿ï¼Œä¼˜å…ˆä»æ•°æ®åº“æŸ¥è¯¢ï¼Œå¦‚æœæ²¡æœ‰æŸ¥è¯¢åˆ°å†å»æœåŠ¡å™¨ä¸ŠæŸ¥è¯¢
+	 *  
 	 */
 	private void queryCounties() {
 		countyList = coolWeatherDB.loadCounties(selectedCity.getId());
@@ -183,7 +185,7 @@ public class ChooseAreaActivity extends Activity {
 
 
 	/**
-	 * ¸ù¾İ´«ÈëµÄ´úºÅºÍÀàĞÍ´Ó·şÎñÆ÷ÉÏ²éÑ¯Ê¡ÊĞÏØÊı¾İ
+	 * æ ¹æ®ä¼ å…¥çš„ä»£å·å’Œç±»å‹ä»æœåŠ¡å™¨ä¸ŠæŸ¥è¯¢çœå¸‚å¿æ•°æ®
 	 */
 	private void queryFromServer(final String code, final String type) {
 		String address;
@@ -233,11 +235,11 @@ public class ChooseAreaActivity extends Activity {
 
 			@Override
 			public void onError(Exception e) {
-				// Í¨¹ırunOnUiThread()·½·¨»Øµ½Ö÷Ïß³Ì´¦ÀíÂß¼­
+				
 				runOnUiThread(new Runnable() {
 					public void run() {
 						closeProgressDialog();
-						Toast.makeText(ChooseAreaActivity.this, "¼ÓÔØÊ§°Ü£¡",
+						Toast.makeText(ChooseAreaActivity.this, "åŠ è½½å¤±è´¥",
 								Toast.LENGTH_LONG).show();
 					}
 				});
@@ -247,12 +249,12 @@ public class ChooseAreaActivity extends Activity {
 	}
 
 	/**
-	 * ÏÔÊ¾½ø¶È¶Ô»°¿ò
+	 * æ˜¾ç¤ºè¿›åº¦å¯¹è¯æ¡†
 	 */
 	private void showProgressDialog() {
 		if (progressDialog == null) {
 			progressDialog = new ProgressDialog(this);
-			progressDialog.setMessage("ÕıÔÚÅ¬Á¦µÄÎªÄú¼ÓÔØ...");
+			progressDialog.setMessage("æ­£åœ¨åŠ è½½...");
 			progressDialog.setCancelable(false);
 
 		}
@@ -260,7 +262,7 @@ public class ChooseAreaActivity extends Activity {
 	}
 
 	/**
-	 * ¹Ø±Õ½ø¶È¶Ô»°¿ò
+	 * å…³é—­è¿›åº¦å¯¹è¯æ¡†
 	 */
 	private void closeProgressDialog() {
 		if (progressDialog != null) {
@@ -268,6 +270,10 @@ public class ChooseAreaActivity extends Activity {
 		}
 	}
 
+	/*
+	 * æ•è·BackæŒ‰é”®ï¼Œæ ¹æ®å½“å‰çš„çº§åˆ«æ¥åˆ¤æ–­ï¼Œæ­¤æ—¶åº”è¯¥è¿”å›å¸‚åˆ—è¡¨ã€çœåˆ—è¡¨ã€è¿˜æ˜¯ç›´æ¥é€€å‡º
+	 * 
+	 */
 	@Override
 	public void onBackPressed() {
 		if (currentLevel == LEVEL_COUNTY) {
